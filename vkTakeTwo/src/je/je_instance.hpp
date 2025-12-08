@@ -13,7 +13,7 @@ namespace je
 		JEInstance(const JEInstance&) = delete;
 		JEInstance& operator= (const JEInstance&) = delete;
 
-		VkInstance& get() { return _instance; };
+		VkInstance& instance() { return _instance; };
 
 	private:
 		VkInstance _instance;

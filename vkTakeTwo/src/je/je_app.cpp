@@ -13,11 +13,11 @@ namespace je
 		_jeInstance = std::make_unique<JEInstance>();
 
 		// Give some instance to window so we can create our surface
-		_jeWindow->setInstance(_jeInstance->get());
+		_jeWindow->setInstance(_jeInstance->instance());
 		_jeSurface = _jeWindow->surface();
 
 		// Gotta put this guy down here cus he needs the instance too
-		_jeDevice = std::make_unique<JEDevice>(_jeInstance->get());
+		_jeDevice = std::make_unique<JEDevice>(_jeInstance->instance(), _jeWindow->surface());
 	}
 
 	JEApp::~JEApp()
