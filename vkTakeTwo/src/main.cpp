@@ -1,10 +1,21 @@
-#include <vulkan/vulkan.h>
-#include <SDL3/SDL.h>
-#include <SDL3/SDL_vulkan.h>
+#include "je/je_app.hpp"
+
+#include <iostream>
+
+constexpr int WND_WIDTH = 1920 / 2;
+constexpr int WND_HEIGHT = 1080 / 2;
 
 int main(int argc, char** argv)
 {
-	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS);
+	je::JEApp jeApp{"vkTakeTwo", WND_WIDTH, WND_HEIGHT};
 
+	try
+	{
+		jeApp.run();
+	}
+	catch (const std::exception& e)
+	{
+		std::cout << e.what() << "\n";
+	}
 	return 0;
 }
