@@ -3,6 +3,7 @@
 #include <memory>
 
 #include "je_swapchain.hpp"
+#include "je_renderpass.hpp"
 
 namespace je
 {
@@ -16,6 +17,7 @@ namespace je
 		JERenderer& operator= (const JERenderer&) = delete;
 	private:
 		std::unique_ptr<JESwapchain> _jeSwapchain;
+		std::unique_ptr<JERenderPass> _jeRenderPass;
 
 		JEDevice& _jeDevice;
 		JEWindow& _jeWindow;

@@ -8,6 +8,7 @@
     <ClCompile Include="src\je\core\je_device.cpp" />
     <ClCompile Include="src\je\render\je_swapchain.cpp" />
     <ClCompile Include="src\je\render\je_renderer.cpp" />
+    <ClCompile Include="src\je\render\je_renderpass.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\je\core\je_window.hpp" />
@@ -17,5 +18,6 @@
     <ClInclude Include="src\je\render\je_swapchain.hpp" />
     <ClInclude Include="src\je\render\je_renderer.hpp" />
     <ClInclude Include="src\je\core\je_types.hpp" />
+    <ClInclude Include="src\je\render\je_renderpass.hpp" />
   </ItemGroup>
 </Project>
