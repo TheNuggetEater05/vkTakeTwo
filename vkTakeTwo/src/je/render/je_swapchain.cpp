@@ -13,7 +13,10 @@ namespace je
 
 	JESwapchain::~JESwapchain()
 	{
+		for (auto view : _swapchainImageViews)
+			vkDestroyImageView(_jeDevice.device(), view, nullptr);
 
+		vkDestroySwapchainKHR(_jeDevice.device(), _swapchain, nullptr);
 	}
 
 	void JESwapchain::createSwapchain()
@@ -134,5 +137,37 @@ namespace je
 		SDL_Log("[+] Created Swapchain!");
 		if (vkCreateSwapchainKHR(_jeDevice.device(), &swapchainCreateInfo, nullptr, &_swapchain) != VK_SUCCESS)
 			throw std::runtime_error("Failed to create swapchain");
+
+		uint32_t imageCount = 0;
+		vkGetSwapchainImagesKHR(_jeDevice.device(), _swapchain, &imageCount, nullptr);
+
+		_swapchainImages.resize(imageCount);
+		vkGetSwapchainImagesKHR(_jeDevice.device(), _swapchain, &imageCount, _swapchainImages.data());
+
+		_swapchainImageFormat = selectedFormat;
+		_swapchainExtent = selectedImageExtent;
+	}
+
+	void JESwapchain::createImageViews()
+	{
+		_swapchainImageViews.resize(_swapchainImages.size());
+		
+		for (uint32_t i = 0; i < _swapchainImages.size(); i++)
+		{
+			VkImageViewCreateInfo imageViewCreateInfo{};
+			imageViewCreateInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
+			imageViewCreateInfo.image = _swapchainImages[i];
+			imageViewCreateInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
+			imageViewCreateInfo.format = _swapchainImageFormat;
+			imageViewCreateInfo.components = { VK_COMPONENT_SWIZZLE_IDENTITY, VK_COMPONENT_SWIZZLE_IDENTITY , VK_COMPONENT_SWIZZLE_IDENTITY , VK_COMPONENT_SWIZZLE_IDENTITY };
+			imageViewCreateInfo.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+			imageViewCreateInfo.subresourceRange.baseMipLevel = 0;
+			imageViewCreateInfo.subresourceRange.levelCount = 1;
+			imageViewCreateInfo.subresourceRange.baseArrayLayer = 0;
+			imageViewCreateInfo.subresourceRange.layerCount = 1;
+
+			if (vkCreateImageView(_jeDevice.device(), &imageViewCreateInfo, nullptr, &_swapchainImageViews[i]) != VK_SUCCESS)
+				throw std::runtime_error("Failed to create swapchain image views");
+		}
 	}
 }

@@ -32,6 +32,12 @@ namespace je
 		VkSwapchainKHR _swapchain;
 		SwapchainSupportDetails _swapchainSupportDetails;
 
+		std::vector<VkImage> _swapchainImages;
+		std::vector<VkImageView> _swapchainImageViews;
+		VkFormat _swapchainImageFormat{};
+		VkExtent2D _swapchainExtent{};
+
 		void createSwapchain();
+		void createImageViews();
 	};
 }
