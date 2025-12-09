@@ -4,7 +4,7 @@
 
 namespace je
 {
-	JEWindow::JEWindow(const char* title, uint32_t w, uint32_t h)
+	JEWindow::JEWindow(const char* title, uint32_t w, uint32_t h) : _width(w), _height(h)
 	{
 		createWindow(title, w, h);
 	}

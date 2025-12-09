@@ -18,6 +18,10 @@ namespace je
 
 		// Gotta put this guy down here cus he needs the instance too
 		_jeDevice = std::make_unique<JEDevice>(_jeInstance->instance(), _jeWindow->surface());
+
+		// NOW WE'RE GETTING TO THE MEAT AND POTATOES BABY!!!
+		// Create our renderer and hand it all of our lovely vulkan objects
+		_jeRenderer = std::make_unique<JERenderer>(*_jeDevice, *_jeWindow);
 	}
 
 	JEApp::~JEApp()

@@ -1,4 +1,4 @@
-#include "je/je_app.hpp"
+#include "je/core/je_app.hpp"
 
 #include <iostream>
 

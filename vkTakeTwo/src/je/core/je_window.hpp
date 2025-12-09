@@ -18,12 +18,18 @@ namespace je
 		SDL_Window* window() { return _window; };
 		VkSurfaceKHR surface() { return _surface; };
 
+		uint32_t width() const { return _width; };
+		uint32_t height() const { return _height; };
+
 		void setInstance(VkInstance instance) { _instance = instance; createSurface(); };
 	private:
 		SDL_Window* _window = nullptr;
 		VkSurfaceKHR _surface = VK_NULL_HANDLE;
 
 		VkInstance _instance = VK_NULL_HANDLE;
+
+		uint32_t _width = 0;
+		uint32_t _height = 0;
 
 		void createWindow(const char* title, uint32_t w, uint32_t h);
 		void createSurface();

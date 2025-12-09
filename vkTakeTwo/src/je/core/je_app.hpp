@@ -7,6 +7,7 @@
 #include "je_window.hpp"
 #include "je_instance.hpp"
 #include "je_device.hpp"
+#include "../render/je_renderer.hpp"
 
 namespace je
 {
@@ -26,6 +27,7 @@ namespace je
 		VkSurfaceKHR _jeSurface = nullptr;
 		std::unique_ptr<JEInstance> _jeInstance = nullptr;
 		std::unique_ptr<JEDevice> _jeDevice = nullptr;
+		std::unique_ptr<JERenderer> _jeRenderer = nullptr;
 
 		bool _shouldClose = false;
 
