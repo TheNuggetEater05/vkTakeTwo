@@ -3,8 +3,43 @@
 
 #include <stdexcept>
 #include <vector>
+#include <iostream>
 
 #include "je_instance.hpp"
+
+#ifdef _DEBUG
+const bool enableValidationLayers = true;
+#else
+const bool enableValidationLayers = false
+#endif
+
+static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(
+	VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
+	VkDebugUtilsMessageTypeFlagsEXT messageType,
+	const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,
+	void* pUserData) {
+
+	SDL_Log("validation layer: %s", pCallbackData->pMessage);
+
+	return VK_FALSE;
+}
+
+VkResult CreateDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pDebugMessenger) {
+	auto func = (PFN_vkCreateDebugUtilsMessengerEXT)vkGetInstanceProcAddr(instance, "vkCreateDebugUtilsMessengerEXT");
+	if (func != nullptr) {
+		return func(instance, pCreateInfo, pAllocator, pDebugMessenger);
+	}
+	else {
+		return VK_ERROR_EXTENSION_NOT_PRESENT;
+	}
+}
+
+void DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks* pAllocator) {
+	auto func = (PFN_vkDestroyDebugUtilsMessengerEXT)vkGetInstanceProcAddr(instance, "vkDestroyDebugUtilsMessengerEXT");
+	if (func != nullptr) {
+		func(instance, debugMessenger, pAllocator);
+	}
+}
 
 namespace je
 {
@@ -15,6 +50,9 @@ namespace je
 
 	JEInstance::~JEInstance()
 	{
+		if (enableValidationLayers)
+			DestroyDebugUtilsMessengerEXT(_instance, _debugMessenger, nullptr);
+
 		vkDestroyInstance(_instance, nullptr);
 	}
 
@@ -38,10 +76,36 @@ namespace je
 			instanceExtensions[i] = sdlExtensions[i];
 		}
 
+		instanceExtensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
+
 		SDL_Log("[+] SDL required extensions:");
 		for (auto& extension : instanceExtensions)
 		{
 			SDL_Log("\t[>] %s", extension);
+		}
+
+		uint32_t layerCount = 0;
+		vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
+
+		std::vector<VkLayerProperties> availableLayers(layerCount);
+		vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
+
+		std::vector<const char*> validationLayers =
+		{
+			"VK_LAYER_KHRONOS_validation"
+		};
+
+		for (const char* layerName : validationLayers)
+		{
+			bool layerFound = false;
+			for (const auto& layerProperties : availableLayers)
+			{
+				if (strcmp(layerName, layerProperties.layerName) == 0)
+				{
+					layerFound = true;
+					break;
+				}
+			}
 		}
 
 		VkInstanceCreateInfo instanceCreateInfo{};
@@ -49,12 +113,38 @@ namespace je
 		instanceCreateInfo.pNext = nullptr;
 		instanceCreateInfo.flags = 0;
 		instanceCreateInfo.pApplicationInfo = &applicationInfo;
-		instanceCreateInfo.enabledLayerCount = 0;
-		instanceCreateInfo.ppEnabledLayerNames = nullptr;
 		instanceCreateInfo.enabledExtensionCount = static_cast<uint32_t>(instanceExtensions.size());
 		instanceCreateInfo.ppEnabledExtensionNames = instanceExtensions.data();
 
+		if (enableValidationLayers)
+		{
+			instanceCreateInfo.enabledLayerCount = validationLayers.size();
+			instanceCreateInfo.ppEnabledLayerNames = validationLayers.data();
+		}
+		else
+		{
+			instanceCreateInfo.enabledLayerCount = 0;
+		}
+
 		if (vkCreateInstance(&instanceCreateInfo, nullptr, &_instance) != VK_SUCCESS)
 			throw std::runtime_error("Failed to create vulkan instance");
+	}
+	void je::JEInstance::setupValidationLayers()
+	{
+		
+	}
+	void JEInstance::setupDebugMessenger()
+	{
+		if (!enableValidationLayers) return;
+
+		VkDebugUtilsMessengerCreateInfoEXT createInfo{};
+		createInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
+		createInfo.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
+		createInfo.messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
+		createInfo.pfnUserCallback = debugCallback;
+		createInfo.pUserData = nullptr; // Optional
+
+		if (CreateDebugUtilsMessengerEXT(_instance, &createInfo, nullptr, &_debugMessenger) != VK_SUCCESS)
+			throw std::runtime_error("failed to set up debug messenger!");
 	}
 }

@@ -93,7 +93,10 @@
     <ClCompile Include="src\je\core\je_app.cpp" />
     <ClCompile Include="src\je\core\je_device.cpp" />
     <ClCompile Include="src\je\core\je_instance.cpp" />
+    <ClCompile Include="src\je\render\je_commandbuffers.cpp" />
+    <ClCompile Include="src\je\render\je_commandpool.cpp" />
     <ClCompile Include="src\je\render\je_framebuffers.cpp" />
+    <ClCompile Include="src\je\render\je_pipeline.cpp" />
     <ClCompile Include="src\je\render\je_renderer.cpp" />
     <ClCompile Include="src\je\render\je_renderpass.cpp" />
     <ClCompile Include="src\je\render\je_swapchain.cpp" />
@@ -105,11 +108,18 @@
     <ClInclude Include="src\je\core\je_device.hpp" />
     <ClInclude Include="src\je\core\je_instance.hpp" />
     <ClInclude Include="src\je\core\je_types.hpp" />
+    <ClInclude Include="src\je\render\je_commandbuffers.hpp" />
+    <ClInclude Include="src\je\render\je_commandpool.hpp" />
     <ClInclude Include="src\je\render\je_framebuffers.hpp" />
+    <ClInclude Include="src\je\render\je_pipeline.hpp" />
     <ClInclude Include="src\je\render\je_renderpass.hpp" />
     <ClInclude Include="src\je\render\je_swapchain.hpp" />
     <ClInclude Include="src\je\core\je_window.hpp" />
     <ClInclude Include="src\je\render\je_renderer.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\shaders\simple.frag" />
+    <None Include="resources\shaders\simple.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

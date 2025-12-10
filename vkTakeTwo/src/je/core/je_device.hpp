@@ -17,6 +17,9 @@ namespace je
 		VkDevice device() { return _device; };
 		VkPhysicalDevice physicalDevice() { return _physicalDevice; };
 
+		VkQueue& graphicsQueue() { return _graphicsQueue; };
+		VkQueue& presentQueue() { return _presentQueue; };
+
 		QueueFamilyIndices findQueueFamilies();
 
 	private:

@@ -17,7 +17,11 @@ namespace je
 
 	private:
 		VkInstance _instance;
+		VkDebugUtilsMessengerEXT _debugMessenger;
 
 		void createInstance();
+
+		void setupValidationLayers();
+		void setupDebugMessenger();
 	};
 }

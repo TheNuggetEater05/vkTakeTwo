@@ -36,6 +36,8 @@ namespace je
 
 		while (_shouldClose == false)
 		{
+			_jeRenderer.get()->drawFrame();
+
 			while (SDL_PollEvent(&e))
 			{
 				if (e.type == SDL_EVENT_QUIT)
