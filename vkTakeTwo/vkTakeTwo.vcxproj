@@ -93,6 +93,7 @@
     <ClCompile Include="src\je\core\je_app.cpp" />
     <ClCompile Include="src\je\core\je_device.cpp" />
     <ClCompile Include="src\je\core\je_instance.cpp" />
+    <ClCompile Include="src\je\render\je_framebuffers.cpp" />
     <ClCompile Include="src\je\render\je_renderer.cpp" />
     <ClCompile Include="src\je\render\je_renderpass.cpp" />
     <ClCompile Include="src\je\render\je_swapchain.cpp" />
@@ -104,6 +105,7 @@
     <ClInclude Include="src\je\core\je_device.hpp" />
     <ClInclude Include="src\je\core\je_instance.hpp" />
     <ClInclude Include="src\je\core\je_types.hpp" />
+    <ClInclude Include="src\je\render\je_framebuffers.hpp" />
     <ClInclude Include="src\je\render\je_renderpass.hpp" />
     <ClInclude Include="src\je\render\je_swapchain.hpp" />
     <ClInclude Include="src\je\core\je_window.hpp" />

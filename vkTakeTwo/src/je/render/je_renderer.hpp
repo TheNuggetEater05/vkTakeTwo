@@ -4,6 +4,7 @@
 
 #include "je_swapchain.hpp"
 #include "je_renderpass.hpp"
+#include "je_framebuffers.hpp"
 
 namespace je
 {
@@ -18,6 +19,7 @@ namespace je
 	private:
 		std::unique_ptr<JESwapchain> _jeSwapchain;
 		std::unique_ptr<JERenderPass> _jeRenderPass;
+		std::unique_ptr<JEFramebuffers> _jeFramebuffers;
 
 		JEDevice& _jeDevice;
 		JEWindow& _jeWindow;

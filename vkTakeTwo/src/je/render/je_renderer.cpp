@@ -6,6 +6,8 @@ namespace je
 	{
 		_jeSwapchain = std::make_unique<JESwapchain>(device, window);
 		_jeRenderPass = std::make_unique<JERenderPass>(*_jeSwapchain, _jeDevice);
+		SDL_Log("Making framebuffers");
+		_jeFramebuffers = std::make_unique<JEFramebuffers>(*_jeSwapchain, *_jeRenderPass, _jeDevice);
 	}
 
 	JERenderer::~JERenderer()

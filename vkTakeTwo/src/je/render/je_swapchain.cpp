@@ -146,6 +146,8 @@ namespace je
 
 		_swapchainImageFormat = selectedFormat;
 		_swapchainExtent = selectedImageExtent;
+
+		createImageViews();
 	}
 
 	void JESwapchain::createImageViews()

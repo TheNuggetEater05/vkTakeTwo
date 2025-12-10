@@ -9,6 +9,7 @@
     <ClCompile Include="src\je\render\je_swapchain.cpp" />
     <ClCompile Include="src\je\render\je_renderer.cpp" />
     <ClCompile Include="src\je\render\je_renderpass.cpp" />
+    <ClCompile Include="src\je\render\je_framebuffers.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\je\core\je_window.hpp" />
@@ -19,5 +20,6 @@
     <ClInclude Include="src\je\render\je_renderer.hpp" />
     <ClInclude Include="src\je\core\je_types.hpp" />
     <ClInclude Include="src\je\render\je_renderpass.hpp" />
+    <ClInclude Include="src\je\render\je_framebuffers.hpp" />
   </ItemGroup>
 </Project>
