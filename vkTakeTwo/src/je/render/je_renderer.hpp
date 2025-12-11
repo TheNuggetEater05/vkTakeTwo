@@ -32,9 +32,14 @@ namespace je
 		JEDevice& _jeDevice;
 		JEWindow& _jeWindow;
 
-		VkSemaphore _imageAvailableSemaphore;
-		VkSemaphore _renderFinishedSemaphore;
-		VkFence _inFlightFence;
+		std::vector<VkSemaphore> _imageAvailableSemaphores;
+		std::vector<VkSemaphore> _renderFinishedSemaphores;
+		std::vector<VkFence> _inFlightFences;
+
+		uint32_t _currentFrame = 0;
+
+		uint32_t startDraw();
+		void endDraw(uint32_t imageIndex);
 
 		void setupSyncObjects();
 

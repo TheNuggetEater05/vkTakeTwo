@@ -2,6 +2,8 @@
 
 #include <fstream>
 
+#include "../core/je_types.hpp"
+
 namespace je
 {
 	JEPipeline::JEPipeline(JEDevice& jeDevice, JESwapchain& jeSwapchain, JERenderPass& jeRenderPass) : _jeDevice(jeDevice), _jeSwapchain(jeSwapchain), _jeRenderPass(jeRenderPass)
@@ -40,12 +42,15 @@ namespace je
 
 		VkPipelineShaderStageCreateInfo shaderStages[] = { vertShaderStageCreateInfo, fragShaderStageCreateInfo };
 
+		auto bindingDescription = Vertex::getBindingDescription();
+		auto attributeDescriptions = Vertex::getAttributeDescriptions();
+
 		VkPipelineVertexInputStateCreateInfo vertexInputStateCreateInfo{};
 		vertexInputStateCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
-		vertexInputStateCreateInfo.vertexBindingDescriptionCount = 0;
-		vertexInputStateCreateInfo.pVertexBindingDescriptions = nullptr;
-		vertexInputStateCreateInfo.vertexAttributeDescriptionCount = 0;
-		vertexInputStateCreateInfo.pVertexAttributeDescriptions = nullptr;
+		vertexInputStateCreateInfo.vertexBindingDescriptionCount = 1;
+		vertexInputStateCreateInfo.pVertexBindingDescriptions = &bindingDescription;
+		vertexInputStateCreateInfo.vertexAttributeDescriptionCount = attributeDescriptions.size();
+		vertexInputStateCreateInfo.pVertexAttributeDescriptions = attributeDescriptions.data();
 
 		std::vector<VkDynamicState> dynamicStates =
 		{

@@ -24,8 +24,6 @@ namespace je
 
 		std::vector<VkCommandBuffer>& commandBuffers() { return _commandBuffers; };
 		void recordCommandBuffer(uint32_t imageIndex);
-		void beginRenderPass(uint32_t imageIndex);
-		void endRenderPass(uint32_t imageIndex);
 		void endCommandBuffer(uint32_t imageIndex);
 	private:
 		JECommandPool& _jeCommandPool;

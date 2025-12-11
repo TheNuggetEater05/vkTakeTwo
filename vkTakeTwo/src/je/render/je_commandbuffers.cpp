@@ -46,16 +46,14 @@ namespace je
 
 		if (vkBeginCommandBuffer(_commandBuffers[imageIndex], &commandBufferBeginInfo) != VK_SUCCESS)
 			throw std::runtime_error("Failed to record command buffer");
-	}
-	void JECommandBuffers::beginRenderPass(uint32_t imageIndex)
-	{
+
 		VkRenderPassBeginInfo renderPassBeginInfo{};
 		renderPassBeginInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
 		renderPassBeginInfo.renderPass = _jeRenderPass.renderPass();
 		renderPassBeginInfo.framebuffer = _jeFramebuffers.framebuffers()[imageIndex];
 		renderPassBeginInfo.renderArea.offset = { 0, 0 };
 		renderPassBeginInfo.renderArea.extent = _jeSwapchain.swapchainExtent();
-		
+
 		VkClearValue clearColor = { { {0.1f, 0.1f, 0.1f, 1.0f} } };
 		renderPassBeginInfo.clearValueCount = 1;
 		renderPassBeginInfo.pClearValues = &clearColor;
@@ -77,15 +75,10 @@ namespace je
 		scissor.offset = { 0, 0 };
 		scissor.extent = _jeSwapchain.swapchainExtent();
 		vkCmdSetScissor(_commandBuffers[imageIndex], 0, 1, &scissor);
-
-		vkCmdDraw(_commandBuffers[imageIndex], 3, 1, 0, 0);
-	}
-	void JECommandBuffers::endRenderPass(uint32_t imageIndex)
-	{
-		vkCmdEndRenderPass(_commandBuffers[imageIndex]);
 	}
 	void JECommandBuffers::endCommandBuffer(uint32_t imageIndex)
 	{
+		vkCmdEndRenderPass(_commandBuffers[imageIndex]);
 		vkEndCommandBuffer(_commandBuffers[imageIndex]);
 	}
 }
